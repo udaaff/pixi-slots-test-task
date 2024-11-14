@@ -11,17 +11,17 @@ function getRandomSymbol(): number {
 }
 
 function getRandomSlotResult(): SlotResult {
-  const reels = [
-    [getRandomSymbol(), getRandomSymbol(), getRandomSymbol(), getRandomSymbol()],
-    [getRandomSymbol(), getRandomSymbol(), getRandomSymbol(), getRandomSymbol()],
-    [getRandomSymbol(), getRandomSymbol(), getRandomSymbol(), getRandomSymbol()],
-  ];
-
-  // const reels = [
-  //   [0, 1, 3, 3],
-  //   [1, 1, 3, 2],
-  //   [2, 1, 2, 0],
-  // ];
+  const reels = Math.random() < 0.5
+  ? [
+      [getRandomSymbol(), getRandomSymbol(), getRandomSymbol(), getRandomSymbol()],
+      [getRandomSymbol(), getRandomSymbol(), getRandomSymbol(), getRandomSymbol()],
+      [getRandomSymbol(), getRandomSymbol(), getRandomSymbol(), getRandomSymbol()],
+    ]
+  : [
+      [0, 1, 3, 3],
+      [1, 1, 3, 2],
+      [2, 1, 2, 0],
+    ];
 
   const win = reels[0][1] === reels[1][1] && reels[1][1] === reels[2][1];
 
