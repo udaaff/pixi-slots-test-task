@@ -1,5 +1,6 @@
 import { Container, Sprite } from "pixi.js";
 import { Reels } from "./Reels";
+import { Button, FancyButton } from "@pixi/ui";
 
 const REELS_TOP_MARGIN = 200;
 const REELS_LEFT_MARGIN = 5;
@@ -19,11 +20,15 @@ export class SlotMachine extends Container {
             REELS_TOP_MARGIN
         );
 
-        this.addChild(glass, this._reels, fg);
+        const playButton = new FancyButton({
+            pressedView: Sprite.from("button_down"),
+            defaultView: Sprite.from("button_up")
+        })
+        playButton.onPress.connect(() => this.spin());
+        this.addChild(glass, this._reels, fg, playButton);
     }
 
-    // XXX temp spin
-    public spin() {
+    private spin() {
         this._reels.spin();
     }
 }
