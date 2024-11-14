@@ -1,6 +1,7 @@
 import { Container } from "pixi.js";
 import { Goblin } from "../ui/Goblin";
 import { SlotMachine } from "../game/SlotMachine";
+import { SlotResult } from "../net/gameServer";
 
 export class GameScreen extends Container {
     public static assetBundles = ["game"];
@@ -12,6 +13,7 @@ export class GameScreen extends Container {
         super();
 
         this._slotMachine = new SlotMachine();
+        this._slotMachine.reels.onComplete.connect((res) => this.onSpeenComplete(res));
         this.addChild(this._slotMachine);
 
         this._goblin = new Goblin();
@@ -21,7 +23,15 @@ export class GameScreen extends Container {
     public resize(w: number, h: number) {
         this._slotMachine.x = (w - this._slotMachine.width) / 2;
 
-        this._goblin.y = h / 2;
-        this._goblin.x = this._slotMachine.x - this._goblin.width;
+        this._goblin.y = 520;
+        this._goblin.x = 460;
+    }
+
+    private onSpeenComplete(res: SlotResult) {
+        if (res.win) {
+            this._goblin.playWin();
+        } else {
+            this._goblin.playLose();
+        }
     }
 }

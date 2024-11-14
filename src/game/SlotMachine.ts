@@ -1,12 +1,14 @@
 import { Container, Sprite } from "pixi.js";
 import { Reels } from "./Reels";
 import { Button, FancyButton } from "@pixi/ui";
+import { Signal } from "typed-signals";
+import { SlotResult } from "../net/gameServer";
 
 const REELS_TOP_MARGIN = 200;
 const REELS_LEFT_MARGIN = 5;
 
 export class SlotMachine extends Container {
-    private readonly _reels: Reels;
+    public readonly reels: Reels;
 
     constructor() {
         super();
@@ -14,9 +16,9 @@ export class SlotMachine extends Container {
         const glass = Sprite.from("reels");
         const fg = Sprite.from("fg");
 
-        this._reels = new Reels();
-        this._reels.position.set(
-            REELS_LEFT_MARGIN + (fg.width - this._reels.width) / 2,
+        this.reels = new Reels();
+        this.reels.position.set(
+            REELS_LEFT_MARGIN + (fg.width - this.reels.width) / 2,
             REELS_TOP_MARGIN
         );
 
@@ -25,10 +27,11 @@ export class SlotMachine extends Container {
             defaultView: Sprite.from("button_up")
         })
         playButton.onPress.connect(() => this.spin());
-        this.addChild(glass, this._reels, fg, playButton);
+
+        this.addChild(glass, this.reels, fg, playButton);
     }
 
     private spin() {
-        this._reels.spin();
+        this.reels.spin();
     }
 }

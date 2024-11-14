@@ -2,11 +2,14 @@ import { Container } from "pixi.js";
 import { Reel } from "./Reel";
 import { cfg } from "./cfg";
 import gsap from "gsap";
-import { mockServerRequest } from "../net/gameServer";
+import { mockServerRequest, SlotResult } from "../net/gameServer";
+import { Signal } from "typed-signals";
+import { getRandomUint } from "../utils/random";
 
 export class Reels extends Container {
     private readonly _reels: Reel[] = [];
     private _running = false;
+    public readonly onComplete = new Signal<(res: SlotResult) => void>();
 
     constructor() {
         super();
@@ -24,22 +27,19 @@ export class Reels extends Container {
             return;
 
         this._running = true;
-
         const result = await mockServerRequest();
-        console.log(result);
 
         for (let i = 0; i < this._reels.length; ++i) {
             const reel = this._reels[i];
-            const extra = 0 //getRandomUint(3);
+            const extra = i + getRandomUint(3);
             const target = reel.pos + 30 + i * 5 + extra;
-            console.log("target: ", target)
-            const duration = (1500 + i * 1200 + extra * 600) / 1000;
+            const duration = (1500 + i * 600 + extra * 600) / 1000;
 
             gsap.to(reel, {
                 pos: target, duration, ease: "back.out(0.5)",
                 onUpdate: () => this.onUpdate(result.reels[i], target - 3),
                 onComplete: i === this._reels.length - 1
-                    ? () => this.reelsComplete() : undefined,
+                    ? () => this.reelsComplete(result) : undefined,
             });
         }
     }
@@ -59,7 +59,6 @@ export class Reels extends Container {
                 symbol.y = ((reel.pos + j) % reel.symbols.length) * symbolSize - symbolSize;
                 if (symbol.y < 0 && prevY > symbolSize) {
                     const symbolIdx = Math.floor(reel.pos - resultPos);
-                    // console.log(symbolIdx)
                     if (symbolIdx < 0)
                         symbol.applyRandomTexture();
                     else
@@ -69,7 +68,8 @@ export class Reels extends Container {
         }
     }
 
-    private reelsComplete() {
+    private reelsComplete(result: SlotResult) {
         this._running = false;
+        this.onComplete.emit(result);
     }
 }
