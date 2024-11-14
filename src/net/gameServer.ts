@@ -1,3 +1,4 @@
+import { cfg } from "../game/cfg";
 import { getRandomUint } from "../utils/random";
 
 export type SlotResult = {
@@ -6,21 +7,21 @@ export type SlotResult = {
 };
 
 function getRandomSymbol(): number {
-  return getRandomUint(4) + 1;
+  return getRandomUint(cfg.numSymbols);
 }
 
 function getRandomSlotResult(): SlotResult {
-  // const reels = [
-  //   [getRandomSymbol(), getRandomSymbol(), getRandomSymbol(), getRandomSymbol()],
-  //   [getRandomSymbol(), getRandomSymbol(), getRandomSymbol(), getRandomSymbol()],
-  //   [getRandomSymbol(), getRandomSymbol(), getRandomSymbol(), getRandomSymbol()],
-  // ];
-
   const reels = [
-    [0, 1, 3, 3],
-    [1, 1, 3, 2],
-    [2, 1, 2, 0],
+    [getRandomSymbol(), getRandomSymbol(), getRandomSymbol(), getRandomSymbol()],
+    [getRandomSymbol(), getRandomSymbol(), getRandomSymbol(), getRandomSymbol()],
+    [getRandomSymbol(), getRandomSymbol(), getRandomSymbol(), getRandomSymbol()],
   ];
+
+  // const reels = [
+  //   [0, 1, 3, 3],
+  //   [1, 1, 3, 2],
+  //   [2, 1, 2, 0],
+  // ];
 
   const win = reels[0][1] === reels[1][1] && reels[1][1] === reels[2][1];
 
