@@ -75,5 +75,7 @@ export class Reels extends Container {
     private reelsComplete(result: SlotResult) {
         this._running = false;
         this.onComplete.emit(result);
+        if (result.win)
+            sfx.play("game/win.wav");
     }
 }
