@@ -54,6 +54,7 @@ async function init() {
 
     await initAssets();
     await navigation.showScreen(LoadScreen);
+    console.log("load GameScreen")
     await navigation.showScreen(GameScreen);
 }
 

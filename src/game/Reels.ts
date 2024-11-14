@@ -59,7 +59,7 @@ export class Reels extends Container {
                 symbol.y = ((reel.pos + j) % reel.symbols.length) * symbolSize - symbolSize;
                 if (symbol.y < 0 && prevY > symbolSize) {
                     const symbolIdx = Math.floor(reel.pos - resultPos);
-                    console.log(symbolIdx)
+                    // console.log(symbolIdx)
                     if (symbolIdx < 0)
                         symbol.applyRandomTexture();
                     else
