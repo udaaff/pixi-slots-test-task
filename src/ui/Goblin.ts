@@ -14,8 +14,7 @@ export class Goblin extends Container {
             skeleton: 'goblins.json',
             atlas: 'goblins.atlas',
         });
-        const entry = this._spine.state.setAnimation(0, 'idle', true);
-
+        this._spine.state.setAnimation(0, 'idle', true);
         this._spine.skeleton.setSkinByName('goblin');
         this.addChild(this._spine);
     }

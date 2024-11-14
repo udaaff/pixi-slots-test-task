@@ -6,8 +6,12 @@ import { navigation } from './utils/navigation';
 import { LoadScreen } from './screens/LoadScreen';
 import { sound } from '@pixi/sound';
 import { GameScreen } from './screens/GameScreen';
+import { bgm } from './utils/audio';
 
 export const app = new Application();
+
+let hasInteracted = false;
+
 
 function resize() {
     const windowWidth = window.innerWidth;
@@ -49,6 +53,16 @@ async function init() {
 
     window.addEventListener('resize', resize);
     resize();
+
+    // Prepare for user interaction, and play the music on event
+    document.addEventListener('pointerdown', () => {
+        if (!hasInteracted) {
+            // Only play audio if it hasn't already been played
+            bgm.play('game/bg_music.wav');
+        }
+
+        hasInteracted = true;
+    });
 
     document.addEventListener('visibilitychange', onVisibilityChange);
 

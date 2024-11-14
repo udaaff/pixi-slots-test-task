@@ -2,6 +2,8 @@ import { Container } from "pixi.js";
 import { Goblin } from "../ui/Goblin";
 import { SlotMachine } from "../game/SlotMachine";
 import { SlotResult } from "../net/gameServer";
+import { Sound } from "@pixi/sound";
+import { bgm } from "../utils/audio";
 
 export class GameScreen extends Container {
     public static assetBundles = ["game"];
@@ -18,6 +20,10 @@ export class GameScreen extends Container {
 
         this._goblin = new Goblin();
         this.addChild(this._goblin);
+
+        // console.log(Sound.from("bg_music.wav"));
+        // bgm.play('game/bg-music.wav');
+
     }
 
     public resize(w: number, h: number) {
