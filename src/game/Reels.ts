@@ -35,15 +35,16 @@ export class Reels extends Container {
 
         for (let i = 0; i < this._reels.length; ++i) {
             const reel = this._reels[i];
-            const extra = i + getRandomUint(3);
+            const extra = i + getRandomUint(2);
             const target = reel.pos + 30 + i * 5 + extra;
-            const duration = (1500 + i * 600 + extra * 600) / 1000;
+            const duration = (500 + i * 300 + extra * 300) / 1000;
 
             gsap.to(reel, {
                 pos: target, duration, ease: "back.out(0.5)",
                 onUpdate: () => this.onUpdate(result.reels[i], target - 3),
                 onComplete: i === this._reels.length - 1
-                    ? () => this.reelsComplete(result) : undefined,
+                    ? () => this.reelsComplete(result)
+                    : () => sfx.play("game/reel_finish.wav"),
             });
         }
     }
@@ -77,5 +78,7 @@ export class Reels extends Container {
         this.onComplete.emit(result);
         if (result.win)
             sfx.play("game/win.wav");
+        else
+            sfx.play("game/reel_finish.wav");
     }
 }
