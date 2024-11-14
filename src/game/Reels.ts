@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { mockServerRequest, SlotResult } from "../net/gameServer";
 import { Signal } from "typed-signals";
 import { getRandomUint } from "../utils/random";
+import { sfx } from "../utils/audio";
 
 export class Reels extends Container {
     private readonly _reels: Reel[] = [];
@@ -27,6 +28,9 @@ export class Reels extends Container {
             return;
 
         this._running = true;
+
+        sfx.play("game/charge.wav");
+
         const result = await mockServerRequest();
 
         for (let i = 0; i < this._reels.length; ++i) {

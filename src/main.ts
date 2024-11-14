@@ -12,7 +12,6 @@ export const app = new Application();
 
 let hasInteracted = false;
 
-
 function resize() {
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
@@ -25,7 +24,6 @@ function resize() {
     const width = windowWidth * scale;
     const height = windowHeight * scale;
 
-    // Update canvas style dimensions and scroll window up to avoid issues on mobile resize
     app.renderer.canvas.style.width = `${windowWidth}px`;
     app.renderer.canvas.style.height = `${windowHeight}px`;
     window.scrollTo(0, 0);
@@ -44,6 +42,13 @@ function onVisibilityChange() {
     }
 }
 
+function onPointerDown() {
+    if (!hasInteracted) {
+        bgm.play('game/bg_music.wav');
+    }
+    hasInteracted = true;
+}
+
 async function init() {
     await app.init({
         resolution: Math.max(window.devicePixelRatio, 2),
@@ -54,16 +59,7 @@ async function init() {
     window.addEventListener('resize', resize);
     resize();
 
-    // Prepare for user interaction, and play the music on event
-    document.addEventListener('pointerdown', () => {
-        if (!hasInteracted) {
-            // Only play audio if it hasn't already been played
-            bgm.play('game/bg_music.wav');
-        }
-
-        hasInteracted = true;
-    });
-
+    document.addEventListener('pointerdown', onPointerDown);
     document.addEventListener('visibilitychange', onVisibilityChange);
 
     await initAssets();
