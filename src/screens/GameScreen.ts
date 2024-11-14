@@ -20,17 +20,13 @@ export class GameScreen extends Container {
 
         this._goblin = new Goblin();
         this.addChild(this._goblin);
-
-        // console.log(Sound.from("bg_music.wav"));
-        // bgm.play('game/bg-music.wav');
-
     }
 
     public resize(w: number, h: number) {
         this._slotMachine.x = (w - this._slotMachine.width) / 2;
 
-        this._goblin.y = 520;
-        this._goblin.x = 460;
+        this._goblin.y = 622;
+        this._goblin.x = w / 2 - 300;
     }
 
     private onSpeenComplete(res: SlotResult) {
