@@ -33,7 +33,7 @@ export class GameScreen extends Container {
         this.addChild(this._ground);
 
         this._slotMachine = new SlotMachine();
-        this._slotMachine.reels.onComplete.connect((res) => this.onSpeenComplete(res));
+        this._slotMachine.reels.onComplete.connect((res) => this.onSpinComplete(res));
         this.addChild(this._slotMachine);
 
         this._spineBoy = new SpineBoy();
@@ -61,7 +61,7 @@ export class GameScreen extends Container {
         this._settings.position.set(10, h - 10 - this._settings.height);
     }
 
-    private onSpeenComplete(res: SlotResult) {
+    private onSpinComplete(res: SlotResult) {
         if (res.win) {
             this._spineBoy.playWin();
         } else {
