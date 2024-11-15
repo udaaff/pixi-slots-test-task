@@ -1,7 +1,7 @@
 // import '@pixi/spine-pixi';
 
 import { Application } from 'pixi.js';
-import { initAssets, loadBundles } from './utils/assets';
+import { initAssets } from './utils/assets';
 import { navigation } from './utils/navigation';
 import { PreloaderScreen } from './screens/PreloaderScreen';
 import { sound } from '@pixi/sound';

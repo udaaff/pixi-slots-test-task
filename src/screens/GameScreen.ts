@@ -3,6 +3,7 @@ import { SpineBoy } from "../ui/SpineBoy";
 import { SlotMachine } from "../game/SlotMachine";
 import { SlotResult } from "../net/gameServer";
 import { Settings } from "../game/Settings";
+import gsap from "gsap";
 
 export class GameScreen extends Container {
     public static assetBundles = ["game"];
@@ -63,5 +64,11 @@ export class GameScreen extends Container {
         } else {
             this._spineBoy.playLose();
         }
+    }
+
+    public async show() {
+        gsap.killTweensOf(this);
+        this.alpha = 0;
+        await gsap.to(this, { alpha: 1, duration: 0.2, ease: 'linear' });
     }
 }
