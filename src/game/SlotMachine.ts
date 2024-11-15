@@ -1,8 +1,6 @@
 import { Container, Sprite } from "pixi.js";
 import { Reels } from "./Reels";
-import { Button, FancyButton } from "@pixi/ui";
-import { Signal } from "typed-signals";
-import { SlotResult } from "../net/gameServer";
+import { FancyButton } from "@pixi/ui";
 
 const REELS_TOP_MARGIN = 200;
 const REELS_LEFT_MARGIN = 5;
