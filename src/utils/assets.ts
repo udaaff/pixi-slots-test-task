@@ -65,7 +65,7 @@ async function fetchAssetsManifest(url: string) {
 }
 
 /** Initialise and start background loading of all assets */
-export async function initAssets(isBackgroundLoad = false) {
+export async function initAssets() {
     // Load assets manifest
     assetsManifest = await fetchAssetsManifest('assets/assets-manifest.json');
 
@@ -74,9 +74,6 @@ export async function initAssets(isBackgroundLoad = false) {
 
     // Load assets for the load screen
     await loadBundles('preload');
-
-    // if (!isBackgroundLoad)
-    //     return;
 
     // List all existing bundles names
     const allBundles = assetsManifest.bundles.map((item) => item.name);
