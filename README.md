@@ -11,6 +11,7 @@ https://github.com/EsotericSoftware/spine-runtimes/tree/4.2/spine-ts/spine-pixi-
 
 Audio:
 https://leohpaz.itch.io/minifantasy-dungeon-sfx-pack
+https://ateliermagicae.itch.io/fantasy-ui-sound-effects
 
 Code utils:
 https://github.com/pixijs/open-games/tree/main
