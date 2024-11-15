@@ -19,8 +19,8 @@ export class Reel extends Container {
         }
 
         this._blur = new BlurFilter();
-        this._blur.strengthX = 0;
-        this._blur.strengthY = 0;
+        this._blur.blurX = 0;
+        this._blur.blurY = 0;
         this.filters = [this._blur];
     }
 

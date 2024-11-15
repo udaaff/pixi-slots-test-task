@@ -11,7 +11,7 @@ function getRandomSymbol(): number {
 }
 
 function getRandomSlotResult(): SlotResult {
-  const reels = Math.random() < 0.5
+  const reels = Math.random() < 0.7
   ? [
       [getRandomSymbol(), getRandomSymbol(), getRandomSymbol(), getRandomSymbol()],
       [getRandomSymbol(), getRandomSymbol(), getRandomSymbol(), getRandomSymbol()],

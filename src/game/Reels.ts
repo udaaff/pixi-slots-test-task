@@ -54,7 +54,7 @@ export class Reels extends Container {
         for (let i = 0; i < this._reels.length; ++i) {
             const reel = this._reels[i];
 
-            reel.blur.strengthY = (reel.pos - reel.prevPos) * 20;
+            reel.blur.blurY = (reel.pos - reel.prevPos) * 20;
             reel.prevPos = reel.pos;
 
             for (let j = 0; j < reel.symbols.length; ++j) {

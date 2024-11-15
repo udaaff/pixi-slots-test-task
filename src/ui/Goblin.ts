@@ -1,33 +1,37 @@
 import { Spine } from "@pixi/spine-pixi";
 import { Container } from "pixi.js";
+import { getRandomUint } from "../utils/random";
 
-// const skins = ['goblin', 'goblingirl'];
-// const attachments = ['spear', 'dagger', null];
-// const animations = ['walk', 'idle'];
+const winAnims = ['hoverboard', 'shoot', 'portal', 'jump'];
 
 export class Goblin extends Container {
     private readonly _spine: Spine;
+    private _curAnim = "idle";
+
     constructor() {
         super();
 
         this._spine = Spine.from({
-            skeleton: 'goblins.json',
-            atlas: 'goblins.atlas',
+            skeleton: 'spineboy-pro.json',
+            atlas: 'spineboy-pma.atlas',
+            scale: 0.3,
         });
         this._spine.state.setAnimation(0, 'idle', true);
-        this._spine.skeleton.setSkinByName('goblin');
         this.addChild(this._spine);
     }
 
     public playLose() {
-        // this._spine.state.setAnimation(0, 'idle', true);
-        this._spine.skeleton.setSkinByName('goblin');
-        this._spine.skeleton.setAttachment("left hand item", "spear");
+        if (this._curAnim === 'death')
+            return;
+        this._curAnim = 'death';
+        this._spine.state.setAnimation(0, 'death');
     }
 
     public playWin() {
-        this._spine.skeleton.setSkinByName('goblingirl');
-        this._spine.skeleton.setAttachment("left hand item", "dagger");
-        // this._spine.state.setAnimation(0, 'walk', true);
+        if (this._curAnim === 'idle')
+            return;
+        this._curAnim = 'idle';
+        this._spine.state.setAnimation(0, winAnims[getRandomUint(4)]);
+        this._spine.state.addAnimation(0, 'idle', true);
     }
 }
