@@ -5,6 +5,7 @@ import { SlotResult } from "../net/gameServer";
 import { Sound } from "@pixi/sound";
 import { bgm } from "../utils/audio";
 import { cfg } from "../game/cfg";
+import { Settings } from "../game/Settings";
 
 export class GameScreen extends Container {
     public static assetBundles = ["game"];
@@ -13,6 +14,7 @@ export class GameScreen extends Container {
     private readonly _slotMachine: SlotMachine;
     private readonly _background: TilingSprite;
     private readonly _ground: TilingSprite;
+    private readonly _settings: Settings;
 
     constructor() {
         super();
@@ -37,6 +39,9 @@ export class GameScreen extends Container {
 
         this._spineBoy = new SpineBoy();
         this.addChild(this._spineBoy);
+
+        this._settings = new Settings();
+        this.addChild(this._settings);
     }
 
     public resize(w: number, h: number) {
@@ -51,6 +56,8 @@ export class GameScreen extends Container {
         this._ground.y = this._slotMachine.height;
         this._ground.width = w;
         this._ground.height = h - this._slotMachine.height;
+
+        this._settings.position.set(10, h - 10 - this._settings.height);
     }
 
     private onSpeenComplete(res: SlotResult) {
