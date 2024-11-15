@@ -28,8 +28,11 @@ export class Goblin extends Container {
     }
 
     public playWin() {
-        if (this._curAnim === 'idle')
+        if (this._curAnim === 'idle') {
+            this._spine.state.setAnimation(0, 'shoot');
+            this._spine.state.addAnimation(0, 'idle');
             return;
+        }
         this._curAnim = 'idle';
         this._spine.state.setAnimation(0, winAnims[getRandomUint(4)]);
         this._spine.state.addAnimation(0, 'idle', true);
