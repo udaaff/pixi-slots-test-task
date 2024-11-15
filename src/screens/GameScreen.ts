@@ -1,10 +1,7 @@
 import { Container, Texture, TilingSprite } from "pixi.js";
-import { Goblin as SpineBoy } from "../ui/SpineBoy";
+import { SpineBoy } from "../ui/SpineBoy";
 import { SlotMachine } from "../game/SlotMachine";
 import { SlotResult } from "../net/gameServer";
-import { Sound } from "@pixi/sound";
-import { bgm } from "../utils/audio";
-import { cfg } from "../game/cfg";
 import { Settings } from "../game/Settings";
 
 export class GameScreen extends Container {

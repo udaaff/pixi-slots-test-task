@@ -4,7 +4,7 @@ import { getRandomUint } from "../utils/random";
 
 const winAnims = ['hoverboard', 'shoot', 'portal', 'jump'];
 
-export class Goblin extends Container {
+export class SpineBoy extends Container {
     private readonly _spine: Spine;
     private _curAnim = "idle";
 
