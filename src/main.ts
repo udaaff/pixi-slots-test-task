@@ -7,8 +7,14 @@ import { PreloaderScreen } from './screens/PreloaderScreen';
 import { sound } from '@pixi/sound';
 import { GameScreen } from './screens/GameScreen';
 import { bgm } from './utils/audio';
+import * as PIXI from "pixi.js";
+import gsap from 'gsap';
+import { PixiPlugin } from 'gsap/all';
 
 export const app = new Application();
+
+gsap.registerPlugin(PixiPlugin);
+PixiPlugin.registerPIXI(PIXI);
 
 let hasInteracted = false;
 

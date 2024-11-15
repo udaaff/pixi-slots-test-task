@@ -13,6 +13,7 @@ export class Reel extends Container {
 
         for (let i = 0; i < cfg.numSymbols; ++i) {
             const symbol = new ReelSymbol();
+            // symbol.x = cfg.symbolSize / 2;
             symbol.y = i * cfg.symbolSize;
             this._symbols.push(symbol);
             this.addChild(symbol);

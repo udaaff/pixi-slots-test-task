@@ -1,4 +1,4 @@
-import { Container } from "pixi.js";
+import { ColorMatrixFilter, Container } from "pixi.js";
 import { Reel } from "./Reel";
 import { cfg } from "./cfg";
 import gsap from "gsap";
@@ -28,7 +28,7 @@ export class Reels extends Container {
             return;
 
         this._running = true;
-
+        this.stopWinAnimation();
         sfx.play("game/charge.wav");
 
         const result = await mockServerRequest();
@@ -43,7 +43,10 @@ export class Reels extends Container {
                 pos: target, duration, ease: "back.out(0.5)",
                 onUpdate: () => this.onUpdate(result.reels[i], target - 3),
                 onComplete: i === this._reels.length - 1
-                    ? () => this.reelsComplete(result)
+                    ? () => {
+                        sfx.play("game/reel_finish.wav");
+                        this.reelsComplete(result);
+                    }
                     : () => sfx.play("game/reel_finish.wav"),
             });
         }
@@ -60,14 +63,15 @@ export class Reels extends Container {
             for (let j = 0; j < reel.symbols.length; ++j) {
                 const symbol = reel.symbols[j];
                 const prevY = symbol.y;
-
                 symbol.y = ((reel.pos + j) % reel.symbols.length) * symbolSize - symbolSize;
                 if (symbol.y < 0 && prevY > symbolSize) {
                     const symbolIdx = Math.floor(reel.pos - resultPos);
                     if (symbolIdx < 0 || symbolIdx >= cfg.numSymbols)
                         symbol.applyRandomTexture();
-                    else
+                    else {
                         symbol.applyTextureById(finalReel[symbolIdx]);
+                        symbol.idx = symbolIdx;
+                    }
                 }
             }
         }
@@ -76,9 +80,32 @@ export class Reels extends Container {
     private reelsComplete(result: SlotResult) {
         this._running = false;
         this.onComplete.emit(result);
-        if (result.win)
-            sfx.play("game/win.wav");
-        else
-            sfx.play("game/reel_finish.wav");
+        if (result.win) {
+            setTimeout(() => sfx.play("game/win.wav"), 150);
+            this.playWinAnimation();
+        }
+    }
+
+    private playWinAnimation() {
+        for (let i = 0; i < cfg.numReels; ++i) {
+            const reel = this._reels[i];
+            const middleSymbol = reel.symbols.find((c) => c.idx === 1);
+            if (!middleSymbol)
+                continue;
+            reel.addChild(middleSymbol);
+            gsap.to(middleSymbol.image, { duration: 0.4, yoyo: true, repeat: 5, pixi: {
+                scale: 1.2, brightness: 2
+            }});
+        }
+    }
+
+    private stopWinAnimation() {
+        for (let i = 0; i < cfg.numReels; ++i) {
+            this._reels[i].symbols.forEach(symbol => {
+                gsap.killTweensOf(symbol.image);
+                symbol.image.scale.set(1);
+                symbol.image.filters = [new ColorMatrixFilter()];
+            });
+        }
     }
 }
