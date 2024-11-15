@@ -4,6 +4,7 @@ import { SlotMachine } from "../game/SlotMachine";
 import { SlotResult } from "../net/gameServer";
 import { Settings } from "../game/Settings";
 import gsap from "gsap";
+import { bgm } from "../utils/audio";
 
 export class GameScreen extends Container {
     public static assetBundles = ["game"];
@@ -40,6 +41,8 @@ export class GameScreen extends Container {
 
         this._settings = new Settings();
         this.addChild(this._settings);
+
+        bgm.play('game/bg_music.wav');
     }
 
     public resize(w: number, h: number) {

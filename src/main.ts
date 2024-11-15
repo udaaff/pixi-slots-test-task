@@ -6,7 +6,6 @@ import { navigation } from './utils/navigation';
 import { PreloaderScreen } from './screens/PreloaderScreen';
 import { sound } from '@pixi/sound';
 import { GameScreen } from './screens/GameScreen';
-import { bgm } from './utils/audio';
 import * as PIXI from "pixi.js";
 import gsap from 'gsap';
 import { PixiPlugin } from 'gsap/all';
@@ -15,8 +14,6 @@ export const app = new Application();
 
 gsap.registerPlugin(PixiPlugin);
 PixiPlugin.registerPIXI(PIXI);
-
-let hasInteracted = false;
 
 function resize() {
     const windowWidth = window.innerWidth;
@@ -48,13 +45,6 @@ function onVisibilityChange() {
     }
 }
 
-function onPointerDown() {
-    if (!hasInteracted) {
-        bgm.play('game/bg_music.wav');
-    }
-    hasInteracted = true;
-}
-
 async function init() {
     await app.init({
         resolution: Math.max(window.devicePixelRatio, 2),
@@ -65,7 +55,6 @@ async function init() {
     window.addEventListener('resize', resize);
     resize();
 
-    document.addEventListener('pointerdown', onPointerDown);
     document.addEventListener('visibilitychange', onVisibilityChange);
 
     await initAssets();
