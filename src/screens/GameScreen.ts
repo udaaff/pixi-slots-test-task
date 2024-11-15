@@ -1,5 +1,5 @@
 import { Container, Texture, TilingSprite } from "pixi.js";
-import { Goblin } from "../ui/Goblin";
+import { Goblin as SpineBoy } from "../ui/SpineBoy";
 import { SlotMachine } from "../game/SlotMachine";
 import { SlotResult } from "../net/gameServer";
 import { Sound } from "@pixi/sound";
@@ -9,9 +9,10 @@ import { cfg } from "../game/cfg";
 export class GameScreen extends Container {
     public static assetBundles = ["game"];
 
-    private readonly _goblin: Goblin;
+    private readonly _spineBoy: SpineBoy;
     private readonly _slotMachine: SlotMachine;
     private readonly _background: TilingSprite;
+    private readonly _ground: TilingSprite;
 
     constructor() {
         super();
@@ -20,36 +21,43 @@ export class GameScreen extends Container {
             texture: Texture.from('brick2'),
             width: 64,
             height: 64,
-            tileScale: {
-                x: cfg.backgroundTileScale,
-                y: cfg.backgroundTileScale,
-            },
         });
         this.addChild(this._background);
+
+        this._ground = new TilingSprite({
+            texture: Texture.from('metal'),
+            width: 64,
+            height: 64,
+        });
+        this.addChild(this._ground);
 
         this._slotMachine = new SlotMachine();
         this._slotMachine.reels.onComplete.connect((res) => this.onSpeenComplete(res));
         this.addChild(this._slotMachine);
 
-        this._goblin = new Goblin();
-        this.addChild(this._goblin);
+        this._spineBoy = new SpineBoy();
+        this.addChild(this._spineBoy);
     }
 
     public resize(w: number, h: number) {
         this._slotMachine.x = (w - this._slotMachine.width) / 2;
 
-        this._goblin.y = 622;
-        this._goblin.x = w / 2 - 300;
+        this._spineBoy.y = 626;
+        this._spineBoy.x = w / 2 - 300;
 
         this._background.width = w;
         this._background.height = h;
+
+        this._ground.y = this._slotMachine.height;
+        this._ground.width = w;
+        this._ground.height = h - this._slotMachine.height;
     }
 
     private onSpeenComplete(res: SlotResult) {
         if (res.win) {
-            this._goblin.playWin();
+            this._spineBoy.playWin();
         } else {
-            this._goblin.playLose();
+            this._spineBoy.playLose();
         }
     }
 }
