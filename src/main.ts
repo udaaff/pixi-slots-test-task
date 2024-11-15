@@ -1,9 +1,9 @@
 // import '@pixi/spine-pixi';
 
 import { Application } from 'pixi.js';
-import { initAssets } from './utils/assets';
+import { initAssets, loadBundles } from './utils/assets';
 import { navigation } from './utils/navigation';
-import { LoadScreen } from './screens/LoadScreen';
+import { PreloaderScreen } from './screens/PreloaderScreen';
 import { sound } from '@pixi/sound';
 import { GameScreen } from './screens/GameScreen';
 import { bgm } from './utils/audio';
@@ -63,8 +63,7 @@ async function init() {
     document.addEventListener('visibilitychange', onVisibilityChange);
 
     await initAssets();
-    await navigation.showScreen(LoadScreen);
-    console.log("load GameScreen")
+    await navigation.showScreen(PreloaderScreen);
     await navigation.showScreen(GameScreen);
 }
 

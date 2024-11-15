@@ -1,10 +1,14 @@
 import { Assets, AssetsManifest } from 'pixi.js';
+import { Signal } from 'typed-signals';
 
 /** List of assets grouped in bundles, for dynamic loading */
 let assetsManifest: AssetsManifest = { bundles: [] };
 
 /** Store bundles already loaded */
 const loadedBundles: string[] = [];
+
+export const onLoadProgress = new Signal<(bundles: string[], progress: number) => void>();
+export const onLoadComplete = new Signal<(bundles: string[]) => void>();
 
 /** Check if a bundle exists in assetManifest */
 function checkBundleExists(bundle: string) {
@@ -30,7 +34,8 @@ export async function loadBundles(bundles: string | string[]) {
 
     // Load bundles
     console.log('[Assets] Load:', loadList.join(', '));
-    await Assets.loadBundle(loadList, (data) => console.log(data));
+    await Assets.loadBundle(loadList, (p) => onLoadProgress.emit(bundles, p));
+    onLoadComplete.emit(bundles);
 
     // Append loaded bundles to the loaded list
     loadedBundles.push(...loadList);
@@ -60,7 +65,7 @@ async function fetchAssetsManifest(url: string) {
 }
 
 /** Initialise and start background loading of all assets */
-export async function initAssets() {
+export async function initAssets(isBackgroundLoad = false) {
     // Load assets manifest
     assetsManifest = await fetchAssetsManifest('assets/assets-manifest.json');
 
@@ -69,6 +74,9 @@ export async function initAssets() {
 
     // Load assets for the load screen
     await loadBundles('preload');
+
+    // if (!isBackgroundLoad)
+    //     return;
 
     // List all existing bundles names
     const allBundles = assetsManifest.bundles.map((item) => item.name);
